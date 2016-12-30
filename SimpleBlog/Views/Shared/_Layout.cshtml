@@ -12,7 +12,23 @@
     <body>
        <header>
            @Html.ActionLink("Home", "Index", "Posts")
-           @Html.ActionLink("Login", "Login", "Auth")
+
+           @if (User.Identity.IsAuthenticated)
+           {
+               <p>
+                   Welcome back, @User.Identity.Name
+               </p>
+               if (User.IsInRole("admin"))
+               {
+                   @Html.ActionLink("View posts in admin", "Index", "Posts", new { area = "admin" }, null);
+               }
+               <a href="@Url.RouteUrl("logout")">Logout</a>
+           }
+           else
+           {
+               @Html.ActionLink("Login", "Login", "Auth")
+           }
+
        </header>
 
         @RenderBody()
